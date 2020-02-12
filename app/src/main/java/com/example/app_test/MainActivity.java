@@ -8,6 +8,7 @@ import android.content.IntentFilter;
 import android.os.BatteryManager;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 
@@ -19,14 +20,12 @@ import java.io.OutputStreamWriter;
 import java.nio.charset.StandardCharsets;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
-import java.util.Date;
 import java.util.Timer;
 import java.util.TimerTask;
 
-import static android.content.ContentValues.TAG;
-
 public class MainActivity extends Activity {
 
+    String TAG = "Script";
     TextView textviewStatus;
     TextView textviewHealth;
     TextView textviewVoltage;
@@ -38,6 +37,8 @@ public class MainActivity extends Activity {
     public String printInfo;
     public String printHealth;
     public String printVoltage;
+    public boolean cancelar = false;
+    Timer timer;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -51,49 +52,14 @@ public class MainActivity extends Activity {
 
         intentfilter = new IntentFilter(Intent.ACTION_BATTERY_CHANGED);
 
-            /*button.setOnClickListener(new View.OnClickListener() {
-
-                @Override
-                public void onClick(View v) {
-                    MainActivity.this.registerReceiver(broadcastreceiver, intentfilter);
-
-                }
-            });*/
-
-        //public int debug =0;
-        Timer timer = new Timer();
-        final long tempo = 1_000;
-
-        TimerTask rotina = new TimerTask() {
-            @Override
-            public void run() {
-                MainActivity.this.registerReceiver(broadcastreceiver, intentfilter);
-
-                runOnUiThread(new Runnable() {
-
-                    @Override
-                    public void run() {
-
-                        textviewVoltage.setText(printVoltage);
-                        Writer(printVoltage, false);
-                        textviewHealth.setText(printHealth);
-                        Writer(printVoltage, false);
-                        textviewStatus.setText(printInfo);
-                        Writer(printVoltage, false);
-                    }
-                });
-
-            }
-        };
-
-        timer.scheduleAtFixedRate(rotina, 0, tempo);
+        
 
     }
 
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        if(broadcastreceiver!=null)
+        if(broadcastreceiver != null)
         {
             unregisterReceiver(broadcastreceiver);
         }
@@ -165,6 +131,43 @@ public class MainActivity extends Activity {
                 printHealth = " = Unspecified Failure"; }
         }
     };
+
+    public void iniciarRotina(){
+        final long tempo = 2_000;
+        Timer timer = new Timer();
+
+        TimerTask rotina = new TimerTask() {
+            @Override
+            public void run() {
+                MainActivity.this.registerReceiver(broadcastreceiver, intentfilter);
+
+                runOnUiThread(new Runnable() {
+
+                    @Override
+                    public void run() {
+
+                        textviewVoltage.setText(printVoltage);
+                        Writer(printVoltage, false);
+                        textviewHealth.setText(printHealth);
+                        Writer(printVoltage, false);
+                        textviewStatus.setText(printInfo);
+                        Writer(printVoltage, false);
+                    }
+                });
+
+            }
+        };
+
+        timer.scheduleAtFixedRate(rotina, 0,tempo);
+    }
+
+    public void pararRotina() {
+        //stop the timer, if it's not already null
+        if (timer != null) {
+            timer.cancel();
+            timer = null;
+        }
+    }
 
     private void Writer(String text, boolean inicio) {
         File logFile = new File(getFilesDir(), "log.txt");
