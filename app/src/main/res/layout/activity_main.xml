@@ -54,6 +54,7 @@
         android:layout_height="wrap_content"
 
         android:text="INICIAR ROTINA"
+        android:onClick=""
         android:textAppearance="?android:attr/textAppearanceLarge"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintHorizontal_bias="0.497"
