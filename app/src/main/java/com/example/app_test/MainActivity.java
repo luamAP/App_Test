@@ -10,6 +10,8 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.CompoundButton;
+import android.widget.Switch;
 import android.widget.TextView;
 
 import java.io.BufferedWriter;
@@ -29,15 +31,15 @@ public class MainActivity extends Activity {
     TextView textviewStatus;
     TextView textviewHealth;
     TextView textviewVoltage;
+    TextView textIniciar;
 
     // Variaveis em comum
-    Button botaum;
+    Switch botaum;
     IntentFilter intentfilter;
 
     public String printInfo;
     public String printHealth;
     public String printVoltage;
-    public boolean cancelar = false;
     Timer timer;
 
     @Override
@@ -48,19 +50,35 @@ public class MainActivity extends Activity {
         textviewStatus = (TextView) findViewById(R.id.textViewStatus);
         textviewHealth = (TextView) findViewById(R.id.textViewHealth);
         textviewVoltage = (TextView) findViewById(R.id.textViewVoltage);
-        botaum  = (Button) findViewById(R.id.inicia);
+
+        textIniciar = (TextView) findViewById(R.id.textIniciar);
+        botaum = (Switch) findViewById(R.id.inicia);
+        botaum.setChecked(false);
 
         intentfilter = new IntentFilter(Intent.ACTION_BATTERY_CHANGED);
 
-        rotina(botaum);
+        botaum.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                if (botaum.isChecked()==true){
+                    //Muda o texto
+                    textIniciar.setText("PARAR ROTINA");
+                    iniciarRotina();
+
+                }else{
+                    pararRotina();
+                }
+            }
+        });
 
     }
 
     public void rotina(View v){
-        if (!cancelar){
-            botaum.setText("PARAR ROTINA");
+        if (botaum.isChecked()==true){
+            //Muda o texto
+            textIniciar.setText("PARAR ROTINA");
             iniciarRotina();
-            cancelar = true;
+
         }else{
             pararRotina();
         }
@@ -159,9 +177,9 @@ public class MainActivity extends Activity {
                         textviewVoltage.setText(printVoltage);
                         Writer(printVoltage, false);
                         textviewHealth.setText(printHealth);
-                        Writer(printVoltage, false);
+                        Writer(printHealth, false);
                         textviewStatus.setText(printInfo);
-                        Writer(printVoltage, false);
+                        Writer(printInfo, false);
                     }
                 });
 
