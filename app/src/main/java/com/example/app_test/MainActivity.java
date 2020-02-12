@@ -35,6 +35,10 @@ public class MainActivity extends Activity {
     Button botaum;
     IntentFilter intentfilter;
 
+    public String printInfo;
+    public String printHealth;
+    public String printVoltage;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -70,10 +74,12 @@ public class MainActivity extends Activity {
                     @Override
                     public void run() {
 
-                        textviewVoltage.setText(getVoltage());
-                        Writer(getVoltage(), true);
-                        textviewHealth.setText(getHealth());
-                        textviewStatus.setText(getStatus());
+                        textviewVoltage.setText(printVoltage);
+                        Writer(printVoltage, false);
+                        textviewHealth.setText(printHealth);
+                        Writer(printVoltage, false);
+                        textviewStatus.setText(printInfo);
+                        Writer(printVoltage, false);
                     }
                 });
 
@@ -106,94 +112,59 @@ public class MainActivity extends Activity {
             float fullVoltage = (float) (batteryVol * 0.001);
 //            Log.i("Script", "Lendo o batteryVol: "+batteryVol);
             Log.i("Script", "Lendo o fullVoltage: "+fullVoltage);
-
-            String printVoltage = " "+fullVoltage+" volt";
+            printVoltage = " "+fullVoltage+" volt";
 
             // Instancias do GetBatteryInfoApp
-            int deviceStatus;
-            String printInfo;
-            deviceStatus = intent.getIntExtra(BatteryManager.EXTRA_STATUS,-1);
+//            int deviceStatus;
+            int deviceStatus = intent.getIntExtra(BatteryManager.EXTRA_STATUS,-1);
             int level = intent.getIntExtra(BatteryManager.EXTRA_LEVEL, -1);
             int scale = intent.getIntExtra(BatteryManager.EXTRA_SCALE, -1);
             int batteryLevel=(int)(((float)level / (float)scale) * 100.0f);
-            Log.i("Script", "Lendo o deviceStatus: "+deviceStatus);
+//            Log.i("Script", "Lendo o deviceStatus: "+deviceStatus);
             Log.i("Script", "Lendo o batteryLevel: "+batteryLevel);
 
             if(deviceStatus == BatteryManager.BATTERY_STATUS_CHARGING){
-
-                printInfo = " = Charging at "+batteryLevel+" %";
-
-            }
+                printInfo = " = Charging at "+batteryLevel+" %"; }
 
             if(deviceStatus == BatteryManager.BATTERY_STATUS_DISCHARGING){
-
-                printInfo = " = Discharging at "+batteryLevel+" %";
-
-            }
+                printInfo = " = Discharging at "+batteryLevel+" %"; }
 
             if (deviceStatus == BatteryManager.BATTERY_STATUS_FULL){
-
-                printInfo = " = Battery Full at "+batteryLevel+" %";
-
-            }
+                printInfo = " = Battery Full at "+batteryLevel+" %"; }
 
             if(deviceStatus == BatteryManager.BATTERY_STATUS_UNKNOWN){
-
-                printInfo = " = Unknown at "+batteryLevel+" %";
-            }
-
+                printInfo = " = Unknown at "+batteryLevel+" %"; }
 
             if (deviceStatus == BatteryManager.BATTERY_STATUS_NOT_CHARGING){
-
-                printInfo = " = Not Charging at "+batteryLevel+" %";
-
-            }
+                printInfo = " = Not Charging at "+batteryLevel+" %"; }
 
 
             //Instancia do CheckBatteryHealthApp
             int deviceHealth = intent.getIntExtra(BatteryManager.EXTRA_HEALTH,0);
             Log.i("Script", "Lendo o deviceHealth: "+deviceHealth);
-            String printHealth;
 
             if(deviceHealth == BatteryManager.BATTERY_HEALTH_COLD){
-
-                printHealth = " = Cold";
-            }
+                printHealth = " = Cold";}
 
             if(deviceHealth == BatteryManager.BATTERY_HEALTH_DEAD){
-
-                printHealth = " = Dead";
-            }
+                printHealth = " = Dead"; }
 
             if (deviceHealth == BatteryManager.BATTERY_HEALTH_GOOD){
-
-                printHealth = " = Good";
-            }
+                printHealth = " = Good"; }
 
             if(deviceHealth == BatteryManager.BATTERY_HEALTH_OVERHEAT){
-
-                printHealth = " = OverHeat";
-            }
+                printHealth = " = OverHeat"; }
 
             if (deviceHealth == BatteryManager.BATTERY_HEALTH_OVER_VOLTAGE){
-
-                printHealth = " = Over voltage";
-            }
+                printHealth = " = Over voltage"; }
 
             if (deviceHealth == BatteryManager.BATTERY_HEALTH_UNKNOWN){
+                printHealth = " = Unknown";}
 
-                printHealth = " = Unknown";
-            }
             if (deviceHealth == BatteryManager.BATTERY_HEALTH_UNSPECIFIED_FAILURE){
-
-                printHealth = " = Unspecified Failure";
-            }
+                printHealth = " = Unspecified Failure"; }
         }
     };
-
-    public String getVoltage(){ return printVoltage;}
-    public String getHealth(){ return printHealth;}
-    public String getStatus(){ return printInfo;}
 
     private void Writer(String text, boolean inicio) {
         File logFile = new File(getFilesDir(), "log.txt");
