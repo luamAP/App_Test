@@ -52,8 +52,18 @@ public class MainActivity extends Activity {
 
         intentfilter = new IntentFilter(Intent.ACTION_BATTERY_CHANGED);
 
-        
+        rotina(botaum);
 
+    }
+
+    public void rotina(View v){
+        if (!cancelar){
+            botaum.setText("PARAR ROTINA");
+            iniciarRotina();
+            cancelar = true;
+        }else{
+            pararRotina();
+        }
     }
 
     @Override
