@@ -31,16 +31,19 @@ public class MainActivity extends Activity {
     TextView textviewStatus;
     TextView textviewHealth;
     TextView textviewVoltage;
-    TextView textIniciar;
+    TextView textviewIniciar;
 
     // Variaveis em comum
-    Switch botaum;
+    Button botaum0;
+    Button botaum;
     IntentFilter intentfilter;
 
     public String printInfo;
     public String printHealth;
     public String printVoltage;
     Timer timer;
+
+    boolean cancel;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -51,36 +54,45 @@ public class MainActivity extends Activity {
         textviewHealth = (TextView) findViewById(R.id.textViewHealth);
         textviewVoltage = (TextView) findViewById(R.id.textViewVoltage);
 
-        textIniciar = (TextView) findViewById(R.id.textIniciar);
-        botaum = (Switch) findViewById(R.id.inicia);
-        botaum.setChecked(false);
+        textviewIniciar = (TextView) findViewById(R.id.textviewIniciar);
+        botaum = (Button) findViewById(R.id.inicia);
+        botaum0 = (Button) findViewById(R.id.parar);
+//        botaum.setChecked(false);
+        cancel = false;
 
         intentfilter = new IntentFilter(Intent.ACTION_BATTERY_CHANGED);
 
-        botaum.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+        Writer("", true);
+        botaum.setVisibility(View.VISIBLE);
+        botaum.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                if (botaum.isChecked()==true){
-                    //Muda o texto
-                    textIniciar.setText("PARAR ROTINA");
-                    iniciarRotina();
+            public void onClick(View v) {
+                iniciarRotina();
+                botaum.setVisibility(View.GONE);
+                botaum0.setVisibility(View.VISIBLE);
+            }
+        });
 
-                }else{
-                    pararRotina();
-                }
+        botaum0.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                pararRotina();
+                botaum0.setVisibility(View.GONE);
+                botaum.setVisibility(View.VISIBLE);
             }
         });
 
     }
 
-    public void rotina(View v){
-        if (botaum.isChecked()==true){
-            //Muda o texto
-            textIniciar.setText("PARAR ROTINA");
-            iniciarRotina();
-
-        }else{
-            pararRotina();
+    public void pararRotina(View v) {
+        //stop the timer, if it's not already null
+        if (timer != null) {
+            timer.cancel();
+            timer = null;
+            textviewStatus.setText("");
+            textviewHealth.setText("");
+            textviewVoltage.setText("");
+            textviewIniciar.setText("ENCERRADO");
         }
     }
 
