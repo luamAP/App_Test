@@ -31,7 +31,7 @@ public class MainActivity extends Activity {
     TextView textviewStatus;
     TextView textviewHealth;
     TextView textviewVoltage;
-    TextView textviewIniciar;
+    TextView textIniciar;
 
     // Variaveis em comum
     Button botaum0;
@@ -54,7 +54,7 @@ public class MainActivity extends Activity {
         textviewHealth = (TextView) findViewById(R.id.textViewHealth);
         textviewVoltage = (TextView) findViewById(R.id.textViewVoltage);
 
-        textviewIniciar = (TextView) findViewById(R.id.textviewIniciar);
+//        textIniciar = (TextView) findViewById(R.id.textIniciar);
         botaum = (Button) findViewById(R.id.inicia);
         botaum0 = (Button) findViewById(R.id.parar);
 //        botaum.setChecked(false);
@@ -64,6 +64,7 @@ public class MainActivity extends Activity {
 
         Writer("", true);
         botaum.setVisibility(View.VISIBLE);
+        botaum0.setVisibility(View.GONE);
         botaum.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -78,7 +79,7 @@ public class MainActivity extends Activity {
             public void onClick(View v) {
                 pararRotina();
                 botaum0.setVisibility(View.GONE);
-                botaum.setVisibility(View.VISIBLE);
+                botaum0.setVisibility(View.VISIBLE);
             }
         });
 
@@ -89,10 +90,7 @@ public class MainActivity extends Activity {
         if (timer != null) {
             timer.cancel();
             timer = null;
-            textviewStatus.setText("");
-            textviewHealth.setText("");
-            textviewVoltage.setText("");
-            textviewIniciar.setText("ENCERRADO");
+            textIniciar.setText("ENCERRADO");
         }
     }
 
