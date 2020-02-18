@@ -74,6 +74,20 @@
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.433" />
 
+    <CheckBox
+        android:id="@+id/playVideo"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+
+        android:text="Reproduzir vídeo do YouTube"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintHorizontal_bias="0.494"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.645" />
+
     <Button
         android:id="@+id/inicia"
         android:layout_width="wrap_content"
@@ -88,7 +102,7 @@
         app:layout_constraintVertical_bias="0.722" />
 
     <Button
-        android:id="@+id/parar"
+        android:id="@+id/para"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="PARAR ROTINA"
