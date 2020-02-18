@@ -10,6 +10,7 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.Switch;
 import android.widget.TextView;
@@ -27,6 +28,7 @@ import java.util.TimerTask;
 
 public class MainActivity extends Activity {
 
+    CheckBox playVideo;
     String TAG = "Script";
     TextView textviewStatus;
     TextView textviewHealth;
@@ -34,8 +36,8 @@ public class MainActivity extends Activity {
     TextView textIniciar;
 
     // Variaveis em comum
-    Button botaum0;
-    Button botaum;
+    Button botaumPara;
+    Button botaumInicia;
     IntentFilter intentfilter;
 
     public String printInfo;
@@ -53,46 +55,61 @@ public class MainActivity extends Activity {
         textviewStatus = (TextView) findViewById(R.id.textViewStatus);
         textviewHealth = (TextView) findViewById(R.id.textViewHealth);
         textviewVoltage = (TextView) findViewById(R.id.textViewVoltage);
+        textIniciar = (TextView) findViewById(R.id.textviewIniciar);
 
 //        textIniciar = (TextView) findViewById(R.id.textIniciar);
-        botaum = (Button) findViewById(R.id.inicia);
-        botaum0 = (Button) findViewById(R.id.parar);
+        botaumInicia = (Button) findViewById(R.id.inicia);
+        botaumPara = (Button) findViewById(R.id.para);
 //        botaum.setChecked(false);
         cancel = false;
 
         intentfilter = new IntentFilter(Intent.ACTION_BATTERY_CHANGED);
 
         Writer("", true);
-        botaum.setVisibility(View.VISIBLE);
-        botaum0.setVisibility(View.GONE);
-        botaum.setOnClickListener(new View.OnClickListener() {
+        botaumInicia.setVisibility(View.VISIBLE);
+        botaumPara.setVisibility(View.GONE);
+
+        botaumInicia.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                iniciarRotina();
-                botaum.setVisibility(View.GONE);
-                botaum0.setVisibility(View.VISIBLE);
+
+                if (playVideo.isChecked()){
+                    // carrega um video do youtube
+                }
+                textIniciar.setText("ENCERRADO");
+
+                if (timer != null){
+                    timer.cancel();
+                }
+                timer = new Timer();
+                IniciarRotina myRotina = new IniciarRotina();
+//                iniciarRotina();
+                timer.schedule(myRotina, 0, 2_000);
+                botaumInicia.setVisibility(View.GONE);
+                botaumPara.setVisibility(View.VISIBLE);
             }
         });
 
-        botaum0.setOnClickListener(new View.OnClickListener() {
+        botaumPara.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                pararRotina();
-                botaum0.setVisibility(View.GONE);
-                botaum0.setVisibility(View.VISIBLE);
+//                timer =null;
+                if (timer != null) {
+                    timer.cancel();
+                    timer = null;
+                    textviewStatus.setText("");
+                    textviewHealth.setText("");
+                    textviewVoltage.setText("");
+                    textIniciar.setText("ENCERRADO");
+                }
+                botaumPara.setVisibility(View.GONE);
+                botaumInicia.setVisibility(View.VISIBLE);
             }
         });
 
     }
 
-    public void pararRotina(View v) {
-        //stop the timer, if it's not already null
-        if (timer != null) {
-            timer.cancel();
-            timer = null;
-            textIniciar.setText("ENCERRADO");
-        }
-    }
+
 
     @Override
     protected void onDestroy() {
@@ -170,11 +187,11 @@ public class MainActivity extends Activity {
         }
     };
 
-    public void iniciarRotina(){
-        final long tempo = 2_000;
-        Timer timer = new Timer();
+    class IniciarRotina extends TimerTask {
+//        final long tempo = 2_000;
+//        Timer timer = new Timer();
 
-        TimerTask rotina = new TimerTask() {
+//        TimerTask rotina = new TimerTask() {
             @Override
             public void run() {
                 MainActivity.this.registerReceiver(broadcastreceiver, intentfilter);
@@ -190,20 +207,22 @@ public class MainActivity extends Activity {
                         Writer(printHealth, false);
                         textviewStatus.setText(printInfo);
                         Writer(printInfo, false);
+
                     }
                 });
 
             }
         };
 
-        timer.scheduleAtFixedRate(rotina, 0,tempo);
-    }
+//        timer.schedule(rotina, 0,tempo);
+//    }
 
     public void pararRotina() {
         //stop the timer, if it's not already null
         if (timer != null) {
             timer.cancel();
             timer = null;
+            textIniciar.setText("ENCERRADO");
         }
     }
 
