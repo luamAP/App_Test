@@ -28,7 +28,7 @@ import java.util.TimerTask;
 
 public class MainActivity extends Activity {
 
-    CheckBox playVideo;
+//    CheckBox playVideo;
     String TAG = "Script";
     TextView textviewStatus;
     TextView textviewHealth;
@@ -39,6 +39,7 @@ public class MainActivity extends Activity {
     Button botaumPara;
     Button botaumInicia;
     IntentFilter intentfilter;
+//    IntentFilter intentVideo;
 
     public String printInfo;
     public String printHealth;
@@ -73,10 +74,7 @@ public class MainActivity extends Activity {
             @Override
             public void onClick(View v) {
 
-                if (playVideo.isChecked()){
-                    // carrega um video do youtube
-                }
-                textIniciar.setText("ENCERRADO");
+                textIniciar.setText("");
 
                 if (timer != null){
                     timer.cancel();
@@ -87,6 +85,13 @@ public class MainActivity extends Activity {
                 timer.schedule(myRotina, 0, 2_000);
                 botaumInicia.setVisibility(View.GONE);
                 botaumPara.setVisibility(View.VISIBLE);
+
+//                if (playVideo.isChecked()){
+//                    // carrega um video do youtube
+//                    openVideo();
+//
+//                }
+
             }
         });
 
@@ -121,6 +126,11 @@ public class MainActivity extends Activity {
 
     }
 
+    private void openVideo(){
+        Intent intent = new Intent(this, SecondActivity.class);
+        this.startActivity(intent);
+    }
+
     private BroadcastReceiver broadcastreceiver = new BroadcastReceiver() {
 
         @Override
@@ -133,7 +143,7 @@ public class MainActivity extends Activity {
             float fullVoltage = (float) (batteryVol * 0.001);
 //            Log.i("Script", "Lendo o batteryVol: "+batteryVol);
             Log.i("Script", "Lendo o fullVoltage: "+fullVoltage);
-            printVoltage = " "+fullVoltage+" volt";
+            printVoltage = "Voltagem do aparelho "+fullVoltage+" volts";
 
             // Instancias do GetBatteryInfoApp
 //            int deviceStatus;
@@ -145,45 +155,46 @@ public class MainActivity extends Activity {
             Log.i("Script", "Lendo o batteryLevel: "+batteryLevel);
 
             if(deviceStatus == BatteryManager.BATTERY_STATUS_CHARGING){
-                printInfo = " = Charging at "+batteryLevel+" %"; }
+                printInfo = "Carregando em "+batteryLevel+" %"; }
 
             if(deviceStatus == BatteryManager.BATTERY_STATUS_DISCHARGING){
-                printInfo = " = Discharging at "+batteryLevel+" %"; }
+                printInfo = "Descarregando em "+batteryLevel+" %"; }
 
             if (deviceStatus == BatteryManager.BATTERY_STATUS_FULL){
-                printInfo = " = Battery Full at "+batteryLevel+" %"; }
+                printInfo = "Bateria cheia ("+batteryLevel+" %)"; }
 
             if(deviceStatus == BatteryManager.BATTERY_STATUS_UNKNOWN){
-                printInfo = " = Unknown at "+batteryLevel+" %"; }
+                printInfo = "Desconhecido: "+batteryLevel+" %"; }
 
             if (deviceStatus == BatteryManager.BATTERY_STATUS_NOT_CHARGING){
-                printInfo = " = Not Charging at "+batteryLevel+" %"; }
+                printInfo = "Não está carregando: "+batteryLevel+" %"; }
 
 
             //Instancia do CheckBatteryHealthApp
             int deviceHealth = intent.getIntExtra(BatteryManager.EXTRA_HEALTH,0);
             Log.i("Script", "Lendo o deviceHealth: "+deviceHealth);
+            String textHealth = "Saúde do Dispositivo: ";
 
             if(deviceHealth == BatteryManager.BATTERY_HEALTH_COLD){
-                printHealth = " = Cold";}
+                printHealth = textHealth +"Frio";}
 
             if(deviceHealth == BatteryManager.BATTERY_HEALTH_DEAD){
-                printHealth = " = Dead"; }
+                printHealth = textHealth+"Morto"; }
 
             if (deviceHealth == BatteryManager.BATTERY_HEALTH_GOOD){
-                printHealth = " = Good"; }
+                printHealth = textHealth+"Bem"; }
 
             if(deviceHealth == BatteryManager.BATTERY_HEALTH_OVERHEAT){
-                printHealth = " = OverHeat"; }
+                printHealth = textHealth+"Superaquecido"; }
 
             if (deviceHealth == BatteryManager.BATTERY_HEALTH_OVER_VOLTAGE){
-                printHealth = " = Over voltage"; }
+                printHealth = textHealth+"Sobre tensão"; }
 
             if (deviceHealth == BatteryManager.BATTERY_HEALTH_UNKNOWN){
-                printHealth = " = Unknown";}
+                printHealth = textHealth+"Desconhecido";}
 
             if (deviceHealth == BatteryManager.BATTERY_HEALTH_UNSPECIFIED_FAILURE){
-                printHealth = " = Unspecified Failure"; }
+                printHealth = textHealth+"Falha desconhecida"; }
         }
     };
 
@@ -227,6 +238,7 @@ public class MainActivity extends Activity {
     }
 
     private void Writer(String text, boolean inicio) {
+
         File logFile = new File(getFilesDir(), "log.txt");
 //        System.out.println(logFile.getAbsolutePath());
 
