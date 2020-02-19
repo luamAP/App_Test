@@ -105,6 +105,7 @@ public class MainActivity extends Activity {
         botaumPara.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                Log.i(TAG, "Rotina Parada");
 //                timer =null;
                 if (timer != null) {
                     timer.cancel();
