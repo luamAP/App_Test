@@ -14,7 +14,7 @@ public class SecondActivity extends AppCompatActivity {
 
         WebView webView = (WebView)
                 findViewById(R.id.webview);
-        webView.loadUrl("https://www.youtube.com/watch?v=vA2XLB2znsw");
+        webView.loadUrl("https://youtu.be/tL1o60lHaho");
 
     }
 
