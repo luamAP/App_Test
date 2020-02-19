@@ -21,14 +21,17 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStreamWriter;
 import java.nio.charset.StandardCharsets;
+import java.text.SimpleDateFormat;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.Date;
+import java.util.Locale;
 import java.util.Timer;
 import java.util.TimerTask;
 
 public class MainActivity extends Activity {
 
-//    CheckBox playVideo;
+    CheckBox playVideo;
     String TAG = "Script";
     TextView textviewStatus;
     TextView textviewHealth;
@@ -58,11 +61,9 @@ public class MainActivity extends Activity {
         textviewVoltage = (TextView) findViewById(R.id.textViewVoltage);
         textIniciar = (TextView) findViewById(R.id.textviewIniciar);
 
-//        textIniciar = (TextView) findViewById(R.id.textIniciar);
         botaumInicia = (Button) findViewById(R.id.inicia);
         botaumPara = (Button) findViewById(R.id.para);
-//        botaum.setChecked(false);
-        cancel = false;
+        playVideo = (CheckBox) findViewById(R.id.playVideo);
 
         intentfilter = new IntentFilter(Intent.ACTION_BATTERY_CHANGED);
 
@@ -73,24 +74,29 @@ public class MainActivity extends Activity {
         botaumInicia.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
                 textIniciar.setText("");
 
                 if (timer != null){
                     timer.cancel();
                 }
-                timer = new Timer();
-                IniciarRotina myRotina = new IniciarRotina();
-//                iniciarRotina();
-                timer.schedule(myRotina, 0, 2_000);
+
+                if (playVideo.isChecked()){
+//                     carrega um video do youtube
+                    openVideo();
+                    IniciarRotina myRotina = new IniciarRotina();
+                    timer = new Timer();
+                    timer.schedule(myRotina,1_000*2, 2_000);
+
+                } else{
+                    playVideo.setVisibility(View.GONE);
+
+                    IniciarRotina myRotina = new IniciarRotina();
+//                    iniciarRotina();
+                    timer = new Timer();
+                    timer.schedule(myRotina, 0, 2_000);
+                }
                 botaumInicia.setVisibility(View.GONE);
                 botaumPara.setVisibility(View.VISIBLE);
-
-//                if (playVideo.isChecked()){
-//                    // carrega um video do youtube
-//                    openVideo();
-//
-//                }
 
             }
         });
@@ -109,12 +115,9 @@ public class MainActivity extends Activity {
                 }
                 botaumPara.setVisibility(View.GONE);
                 botaumInicia.setVisibility(View.VISIBLE);
+                playVideo.setVisibility(View.VISIBLE);
             }
-        });
-
-    }
-
-
+        }); }
 
     @Override
     protected void onDestroy() {
@@ -127,8 +130,8 @@ public class MainActivity extends Activity {
     }
 
     private void openVideo(){
-        Intent intent = new Intent(this, SecondActivity.class);
-        this.startActivity(intent);
+        Intent intent = new Intent(MainActivity.this, SecondActivity.class);
+        startActivity(intent);
     }
 
     private BroadcastReceiver broadcastreceiver = new BroadcastReceiver() {
@@ -239,7 +242,10 @@ public class MainActivity extends Activity {
 
     private void Writer(String text, boolean inicio) {
 
-        File logFile = new File(getFilesDir(), "log.txt");
+        //transformar data em string:
+        String dateLog = new SimpleDateFormat("yyyy-MM-dd'.txt'", Locale.US).format(new Date());
+
+        File logFile = new File(getFilesDir(), dateLog);
 //        System.out.println(logFile.getAbsolutePath());
 
         LocalDateTime data = LocalDateTime.now();
