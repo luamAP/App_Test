@@ -23,7 +23,7 @@
             </intent-filter>
         </activity>
         <activity
-            android:name="com.example.app_test.SecondActivity"
+            android:name=".SecondActivity"
             android:label="Second Activity">
         </activity>
     </application>
