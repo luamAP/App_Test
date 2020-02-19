@@ -9,6 +9,7 @@ import android.os.BatteryManager;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.webkit.WebView;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
@@ -85,7 +86,7 @@ public class MainActivity extends Activity {
                     openVideo();
                     IniciarRotina myRotina = new IniciarRotina();
                     timer = new Timer();
-                    timer.schedule(myRotina,1_000*2, 2_000);
+                    timer.schedule(myRotina,0, 2_000);
 
                 } else{
                     playVideo.setVisibility(View.GONE);
@@ -130,8 +131,9 @@ public class MainActivity extends Activity {
     }
 
     private void openVideo(){
-        Intent intent = new Intent(MainActivity.this, SecondActivity.class);
-        startActivity(intent);
+        WebView webView = (WebView)
+                findViewById(R.id.webview);
+        webView.loadUrl("https://youtu.be/tL1o60lHaho");
     }
 
     private BroadcastReceiver broadcastreceiver = new BroadcastReceiver() {
