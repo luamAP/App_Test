@@ -110,6 +110,8 @@ public class MainActivity extends Activity {
                 if (timer != null) {
                     timer.cancel();
                     timer = null;
+
+                    Log.i(TAG, "Log parado!");
                     textviewStatus.setText("");
                     textviewHealth.setText("");
                     textviewVoltage.setText("");
@@ -117,6 +119,8 @@ public class MainActivity extends Activity {
                 }
                 botaumPara.setVisibility(View.GONE);
                 botaumInicia.setVisibility(View.VISIBLE);
+                playVideo.setVisibility(View.VISIBLE);
+
             }
         });
 
@@ -144,7 +148,7 @@ public class MainActivity extends Activity {
             int batteryVol = (int)(intent.getIntExtra(BatteryManager.EXTRA_VOLTAGE,0));
             float fullVoltage = (float) (batteryVol * 0.001);
 
-            Log.i("Script", "Lendo o fullVoltage: "+fullVoltage);
+            Log.i(TAG, "Lendo o fullVoltage: "+fullVoltage);
             printVoltage = "Voltagem do aparelho "+fullVoltage+" volts";
 
             // Instancias do GetBatteryInfoApp
@@ -153,7 +157,7 @@ public class MainActivity extends Activity {
             int scale = intent.getIntExtra(BatteryManager.EXTRA_SCALE, -1);
             int batteryLevel=(int)(((float)level / (float)scale) * 100.0f);
 
-            Log.i("Script", "Lendo o batteryLevel: "+batteryLevel);
+            Log.i(TAG, "Lendo o batteryLevel: "+batteryLevel);
 
             if(deviceStatus == BatteryManager.BATTERY_STATUS_CHARGING){
                 printInfo = "Carregando em "+batteryLevel+" %"; }
@@ -173,7 +177,7 @@ public class MainActivity extends Activity {
 
             //Instancia do CheckBatteryHealthApp
             int deviceHealth = intent.getIntExtra(BatteryManager.EXTRA_HEALTH,0);
-            Log.i("Script", "Lendo o deviceHealth: "+deviceHealth);
+            Log.i(TAG, "Lendo o deviceHealth: "+deviceHealth);
             String textHealth = "Saúde do Dispositivo: ";
 
             if(deviceHealth == BatteryManager.BATTERY_HEALTH_COLD){
@@ -228,8 +232,6 @@ public class MainActivity extends Activity {
         LocalDateTime data = LocalDateTime.now();
         DateTimeFormatter dataFormato = DateTimeFormatter.ofPattern("HH:mm:ss");
         String dataFormatada = data.format(dataFormato);
-
-        String TAG = "";
 
         try (FileOutputStream fos = new FileOutputStream(logFile, true);
              OutputStreamWriter osw = new OutputStreamWriter(fos, StandardCharsets.UTF_8);
