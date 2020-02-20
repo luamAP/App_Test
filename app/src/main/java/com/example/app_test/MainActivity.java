@@ -131,7 +131,8 @@ public class MainActivity extends Activity {
     protected void onDestroy() {
         super.onDestroy();
         if(broadcastreceiver != null)
-        { unregisterReceiver(broadcastreceiver); }
+        { unregisterReceiver(broadcastreceiver);
+        broadcastreceiver = null;}
     }
 
     private void openVideo(){
