@@ -60,6 +60,7 @@ public class MainActivity extends Activity {
         textviewStatus = (TextView) findViewById(R.id.textViewStatus);
         textviewHealth = (TextView) findViewById(R.id.textViewHealth);
         textviewVoltage = (TextView) findViewById(R.id.textViewVoltage);
+<<<<<<< HEAD
         textIniciar = (TextView) findViewById(R.id.textviewIniciar);
 
 <<<<<<< HEAD
@@ -67,6 +68,9 @@ public class MainActivity extends Activity {
         botaumPara = (Button) findViewById(R.id.para);
 //        playVideo = (CheckBox) findViewById(R.id.playVideo);
 =======
+=======
+
+>>>>>>> parent of c4ff5cf... Update MainActivity.java
         textviewIniciar = (TextView) findViewById(R.id.textviewIniciar);
         botaum = (Button) findViewById(R.id.inicia);
         botaum0 = (Button) findViewById(R.id.parar);
