@@ -37,7 +37,7 @@ public class MainActivity extends Activity {
     TextView textviewStatus;
     TextView textviewHealth;
     TextView textviewVoltage;
-    TextView textIniciar;
+    TextView textviewIniciar;
 
     // Variaveis em comum
     Button botaumPara;
@@ -62,17 +62,30 @@ public class MainActivity extends Activity {
         textviewVoltage = (TextView) findViewById(R.id.textViewVoltage);
         textIniciar = (TextView) findViewById(R.id.textviewIniciar);
 
+<<<<<<< HEAD
         botaumInicia = (Button) findViewById(R.id.inicia);
         botaumPara = (Button) findViewById(R.id.para);
 //        playVideo = (CheckBox) findViewById(R.id.playVideo);
+=======
+        textviewIniciar = (TextView) findViewById(R.id.textviewIniciar);
+        botaum = (Button) findViewById(R.id.inicia);
+        botaum0 = (Button) findViewById(R.id.parar);
+//        botaum.setChecked(false);
+        cancel = false;
+>>>>>>> parent of c4ff5cf... Update MainActivity.java
 
         intentfilter = new IntentFilter(Intent.ACTION_BATTERY_CHANGED);
 
         Writer("", true);
+<<<<<<< HEAD
         botaumInicia.setVisibility(View.VISIBLE);
         botaumPara.setVisibility(View.GONE);
 
         botaumInicia.setOnClickListener(new View.OnClickListener() {
+=======
+        botaum.setVisibility(View.VISIBLE);
+        botaum.setOnClickListener(new View.OnClickListener() {
+>>>>>>> parent of c4ff5cf... Update MainActivity.java
             @Override
             public void onClick(View v) {
                 textIniciar.setText("");
@@ -105,6 +118,7 @@ public class MainActivity extends Activity {
         botaumPara.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+<<<<<<< HEAD
                 Log.i(TAG, "Rotina Parada");
 
                 if (timer != null) {
@@ -120,6 +134,27 @@ public class MainActivity extends Activity {
 //                playVideo.setVisibility(View.VISIBLE);
             }
         }); }
+=======
+                pararRotina();
+                botaum0.setVisibility(View.GONE);
+                botaum.setVisibility(View.VISIBLE);
+            }
+        });
+
+    }
+
+    public void pararRotina(View v) {
+        //stop the timer, if it's not already null
+        if (timer != null) {
+            timer.cancel();
+            timer = null;
+            textviewStatus.setText("");
+            textviewHealth.setText("");
+            textviewVoltage.setText("");
+            textviewIniciar.setText("ENCERRADO");
+        }
+    }
+>>>>>>> parent of c4ff5cf... Update MainActivity.java
 
     @Override
     protected void onDestroy() {
