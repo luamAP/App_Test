@@ -48,7 +48,7 @@ public class MainActivity extends Activity {
     public String printInfo;
     public String printHealth;
     public String printVoltage;
-    Timer timer;
+    Timer timer = new Timer();
 
     boolean cancel;
 
@@ -64,7 +64,7 @@ public class MainActivity extends Activity {
 
         botaumInicia = (Button) findViewById(R.id.inicia);
         botaumPara = (Button) findViewById(R.id.para);
-        playVideo = (CheckBox) findViewById(R.id.playVideo);
+//        playVideo = (CheckBox) findViewById(R.id.playVideo);
 
         intentfilter = new IntentFilter(Intent.ACTION_BATTERY_CHANGED);
 
@@ -83,18 +83,18 @@ public class MainActivity extends Activity {
 
                 if (playVideo.isChecked()){
 //                     carrega um video do youtube
-                    openVideo();
+//                    openVideo();
                     IniciarRotina myRotina = new IniciarRotina();
-                    timer = new Timer();
                     timer.schedule(myRotina,0, 2_000);
+//                    timer.scheduleAtFixedRate(myRotina,0,2_000);
 
                 } else{
                     playVideo.setVisibility(View.GONE);
 
                     IniciarRotina myRotina = new IniciarRotina();
 //                    iniciarRotina();
-                    timer = new Timer();
                     timer.schedule(myRotina, 0, 2_000);
+//                    timer.scheduleAtFixedRate(myRotina,0,2_000);
                 }
                 botaumInicia.setVisibility(View.GONE);
                 botaumPara.setVisibility(View.VISIBLE);
@@ -106,7 +106,7 @@ public class MainActivity extends Activity {
             @Override
             public void onClick(View v) {
                 Log.i(TAG, "Rotina Parada");
-//                timer =null;
+
                 if (timer != null) {
                     timer.cancel();
                     timer = null;
@@ -117,7 +117,7 @@ public class MainActivity extends Activity {
                 }
                 botaumPara.setVisibility(View.GONE);
                 botaumInicia.setVisibility(View.VISIBLE);
-                playVideo.setVisibility(View.VISIBLE);
+//                playVideo.setVisibility(View.VISIBLE);
             }
         }); }
 
@@ -252,7 +252,7 @@ public class MainActivity extends Activity {
 //        System.out.println(logFile.getAbsolutePath());
 
         LocalDateTime data = LocalDateTime.now();
-        DateTimeFormatter dataFormato = DateTimeFormatter.ofPattern("dd-MM-yyyy HH:mm:ss");
+        DateTimeFormatter dataFormato = DateTimeFormatter.ofPattern("HH:mm:ss");
         String dataFormatada = data.format(dataFormato);
 
         String TAG = "Script";
