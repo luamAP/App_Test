@@ -37,20 +37,19 @@ public class MainActivity extends Activity {
     TextView textviewStatus;
     TextView textviewHealth;
     TextView textviewVoltage;
-    TextView textviewIniciar;
+    TextView textIniciar;
+    WebView webview;
 
     // Variaveis em comum
     Button botaumPara;
     Button botaumInicia;
     IntentFilter intentfilter;
-//    IntentFilter intentVideo;
 
     public String printInfo;
     public String printHealth;
     public String printVoltage;
-    Timer timer = new Timer();
-
-    boolean cancel;
+//    Timer timer = new Timer();
+    Timer timer;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -60,71 +59,54 @@ public class MainActivity extends Activity {
         textviewStatus = (TextView) findViewById(R.id.textViewStatus);
         textviewHealth = (TextView) findViewById(R.id.textViewHealth);
         textviewVoltage = (TextView) findViewById(R.id.textViewVoltage);
-<<<<<<< HEAD
         textIniciar = (TextView) findViewById(R.id.textviewIniciar);
 
-<<<<<<< HEAD
+        webview = (WebView) findViewById(R.id.webview);
         botaumInicia = (Button) findViewById(R.id.inicia);
         botaumPara = (Button) findViewById(R.id.para);
-//        playVideo = (CheckBox) findViewById(R.id.playVideo);
-=======
-=======
-
->>>>>>> parent of c4ff5cf... Update MainActivity.java
-        textviewIniciar = (TextView) findViewById(R.id.textviewIniciar);
-        botaum = (Button) findViewById(R.id.inicia);
-        botaum0 = (Button) findViewById(R.id.parar);
-//        botaum.setChecked(false);
-        cancel = false;
->>>>>>> parent of c4ff5cf... Update MainActivity.java
+        playVideo = (CheckBox) findViewById(R.id.playVideo);
 
         intentfilter = new IntentFilter(Intent.ACTION_BATTERY_CHANGED);
 
-        Writer("", true);
-<<<<<<< HEAD
         botaumInicia.setVisibility(View.VISIBLE);
         botaumPara.setVisibility(View.GONE);
 
         botaumInicia.setOnClickListener(new View.OnClickListener() {
-=======
-        botaum.setVisibility(View.VISIBLE);
-        botaum.setOnClickListener(new View.OnClickListener() {
->>>>>>> parent of c4ff5cf... Update MainActivity.java
             @Override
             public void onClick(View v) {
-                textIniciar.setText("");
+                timer = new Timer();
+                Writer("", true);
 
-                if (timer != null){
-                    timer.cancel();
-                }
+                textIniciar.setText("");
+//                if (timer != null){
+//                    timer.cancel();
+//                }
+
+//                IniciarRotina myRotina = new IniciarRotina();
+//                timer.schedule(myRotina, 0, 2_000);
+//                botaumInicia.setVisibility(View.GONE);
+//                botaumPara.setVisibility(View.VISIBLE);
 
                 if (playVideo.isChecked()){
-//                     carrega um video do youtube
-//                    openVideo();
+                    openVideo();
                     IniciarRotina myRotina = new IniciarRotina();
-                    timer.schedule(myRotina,0, 2_000);
-//                    timer.scheduleAtFixedRate(myRotina,0,2_000);
-
-                } else{
-                    playVideo.setVisibility(View.GONE);
-
-                    IniciarRotina myRotina = new IniciarRotina();
-//                    iniciarRotina();
                     timer.schedule(myRotina, 0, 2_000);
-//                    timer.scheduleAtFixedRate(myRotina,0,2_000);
+                    botaumInicia.setVisibility(View.GONE);
+                    botaumPara.setVisibility(View.VISIBLE);
+                } else {
+                    IniciarRotina myRotina = new IniciarRotina();
+                    timer.schedule(myRotina, 0, 2_000);
+                    botaumInicia.setVisibility(View.GONE);
+                    botaumPara.setVisibility(View.VISIBLE);
+                    playVideo.setVisibility(View.GONE);
                 }
-                botaumInicia.setVisibility(View.GONE);
-                botaumPara.setVisibility(View.VISIBLE);
-
             }
         });
 
         botaumPara.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-<<<<<<< HEAD
-                Log.i(TAG, "Rotina Parada");
-
+//                timer =null;
                 if (timer != null) {
                     timer.cancel();
                     timer = null;
@@ -135,44 +117,21 @@ public class MainActivity extends Activity {
                 }
                 botaumPara.setVisibility(View.GONE);
                 botaumInicia.setVisibility(View.VISIBLE);
-//                playVideo.setVisibility(View.VISIBLE);
-            }
-        }); }
-=======
-                pararRotina();
-                botaum0.setVisibility(View.GONE);
-                botaum.setVisibility(View.VISIBLE);
             }
         });
 
     }
 
-    public void pararRotina(View v) {
-        //stop the timer, if it's not already null
-        if (timer != null) {
-            timer.cancel();
-            timer = null;
-            textviewStatus.setText("");
-            textviewHealth.setText("");
-            textviewVoltage.setText("");
-            textviewIniciar.setText("ENCERRADO");
-        }
-    }
->>>>>>> parent of c4ff5cf... Update MainActivity.java
 
     @Override
     protected void onDestroy() {
         super.onDestroy();
         if(broadcastreceiver != null)
-        {
-            unregisterReceiver(broadcastreceiver);
-        }
-
+        { unregisterReceiver(broadcastreceiver); }
     }
 
     private void openVideo(){
-        WebView webView = (WebView)
-                findViewById(R.id.webview);
+        WebView webView = (WebView) findViewById(R.id.webview);
         webView.loadUrl("https://youtu.be/tL1o60lHaho");
     }
 
@@ -182,21 +141,18 @@ public class MainActivity extends Activity {
         public void onReceive(Context context, Intent intent) {
 
             // Instancia do GetBatteryVoltageApp
-//            int batteryVol;
-//            float fullVoltage;
             int batteryVol = (int)(intent.getIntExtra(BatteryManager.EXTRA_VOLTAGE,0));
             float fullVoltage = (float) (batteryVol * 0.001);
-//            Log.i("Script", "Lendo o batteryVol: "+batteryVol);
+
             Log.i("Script", "Lendo o fullVoltage: "+fullVoltage);
             printVoltage = "Voltagem do aparelho "+fullVoltage+" volts";
 
             // Instancias do GetBatteryInfoApp
-//            int deviceStatus;
             int deviceStatus = intent.getIntExtra(BatteryManager.EXTRA_STATUS,-1);
             int level = intent.getIntExtra(BatteryManager.EXTRA_LEVEL, -1);
             int scale = intent.getIntExtra(BatteryManager.EXTRA_SCALE, -1);
             int batteryLevel=(int)(((float)level / (float)scale) * 100.0f);
-//            Log.i("Script", "Lendo o deviceStatus: "+deviceStatus);
+
             Log.i("Script", "Lendo o batteryLevel: "+batteryLevel);
 
             if(deviceStatus == BatteryManager.BATTERY_STATUS_CHARGING){
@@ -244,57 +200,36 @@ public class MainActivity extends Activity {
     };
 
     class IniciarRotina extends TimerTask {
-//        final long tempo = 2_000;
-//        Timer timer = new Timer();
+        @Override
+        public void run() {
+            MainActivity.this.registerReceiver(broadcastreceiver, intentfilter);
 
-//        TimerTask rotina = new TimerTask() {
-            @Override
-            public void run() {
-                MainActivity.this.registerReceiver(broadcastreceiver, intentfilter);
+            runOnUiThread(new Runnable() {
 
-                runOnUiThread(new Runnable() {
+                @Override
+                public void run() {
 
-                    @Override
-                    public void run() {
+                    textviewVoltage.setText(printVoltage);
+                    Writer(printVoltage, false);
+                    textviewHealth.setText(printHealth);
+                    Writer(printHealth, false);
+                    textviewStatus.setText(printInfo);
+                    Writer(printInfo, false);
 
-                        textviewVoltage.setText(printVoltage);
-                        Writer(printVoltage, false);
-                        textviewHealth.setText(printHealth);
-                        Writer(printHealth, false);
-                        textviewStatus.setText(printInfo);
-                        Writer(printInfo, false);
+                }
+            });
 
-                    }
-                });
-
-            }
-        };
-
-//        timer.schedule(rotina, 0,tempo);
-//    }
-
-    public void pararRotina() {
-        //stop the timer, if it's not already null
-        if (timer != null) {
-            timer.cancel();
-            timer = null;
-            textIniciar.setText("ENCERRADO");
-        }
-    }
+        }};
 
     private void Writer(String text, boolean inicio) {
-
-        //transformar data em string:
-        String dateLog = new SimpleDateFormat("yyyy-MM-dd'.txt'", Locale.US).format(new Date());
-
-        File logFile = new File(getFilesDir(), dateLog);
-//        System.out.println(logFile.getAbsolutePath());
+        String dtaString = new SimpleDateFormat("yyyy-MM-dd", Locale.US).format(new Date());
+        File logFile = new File(getFilesDir(), dtaString+".txt");
 
         LocalDateTime data = LocalDateTime.now();
         DateTimeFormatter dataFormato = DateTimeFormatter.ofPattern("HH:mm:ss");
         String dataFormatada = data.format(dataFormato);
 
-        String TAG = "Script";
+        String TAG = "";
 
         try (FileOutputStream fos = new FileOutputStream(logFile, true);
              OutputStreamWriter osw = new OutputStreamWriter(fos, StandardCharsets.UTF_8);
