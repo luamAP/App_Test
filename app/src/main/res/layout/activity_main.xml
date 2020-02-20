@@ -9,10 +9,10 @@
     android:keepScreenOn="true"
     tools:context=".MainActivity">
 
-<!--    <WebView-->
-<!--        android:id="@+id/webview"-->
-<!--        android:layout_width="match_parent"-->
-<!--        android:layout_height="match_parent" />-->
+    <WebView
+        android:id="@+id/webview"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
 
     <TextView
         android:id="@+id/textViewVoltage"
@@ -53,18 +53,6 @@
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
-
-   <!-- <Switch
-        android:id="@+id/ini"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textAppearance="?android:attr/textAppearanceLarge"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.764" />
-    -->
 
     <TextView
         android:id="@+id/textviewIniciar"
@@ -118,19 +106,5 @@
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.807" />
-
-    <!--  <Button
-          android:id="@+id/mudancaTema"
-          android:layout_width="103dp"
-          android:layout_height="85dp"
-
-          android:text="Mudar Tema"
-          android:textAppearance="?android:attr/textAppearanceLarge"
-          app:layout_constraintBottom_toBottomOf="parent"
-          app:layout_constraintHorizontal_bias="0.069"
-          app:layout_constraintLeft_toLeftOf="parent"
-          app:layout_constraintRight_toRightOf="parent"
-          app:layout_constraintTop_toTopOf="parent"
-          app:layout_constraintVertical_bias="0.023" /> -->
 
 </androidx.constraintlayout.widget.ConstraintLayout>
