@@ -106,7 +106,7 @@ public class MainActivity extends Activity {
         botaumPara.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-//                timer =null;
+
                 if (timer != null) {
                     timer.cancel();
                     timer = null;
@@ -136,14 +136,11 @@ public class MainActivity extends Activity {
         } catch (Exception e) {
             e.printStackTrace();
         }
-//        if(broadcastreceiver != null)
-//        { unregisterReceiver(broadcastreceiver);
-//        broadcastreceiver = null;}
     }
 
     private void openVideo(){
-        WebView webView = (WebView) findViewById(R.id.webview);
-        webView.loadUrl("https://youtu.be/tL1o60lHaho");
+        WebView webview = (WebView) findViewById(R.id.webview);
+        webview.loadUrl("https://www.youtube.com/watch?time_continue=15&v=NYgmFncXxqE");
     }
 
     private BroadcastReceiver broadcastreceiver = new BroadcastReceiver() {
