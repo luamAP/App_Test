@@ -90,12 +90,12 @@ public class MainActivity extends Activity {
                 if (playVideo.isChecked()){
                     openVideo();
                     IniciarRotina myRotina = new IniciarRotina();
-                    timer.schedule(myRotina, 0, 2_000);
+                    timer.schedule(myRotina, 0, 300_000);
                     botaumInicia.setVisibility(View.GONE);
                     botaumPara.setVisibility(View.VISIBLE);
                 } else {
                     IniciarRotina myRotina = new IniciarRotina();
-                    timer.schedule(myRotina, 0, 2_000);
+                    timer.schedule(myRotina, 0, 300_000);
                     botaumInicia.setVisibility(View.GONE);
                     botaumPara.setVisibility(View.VISIBLE);
                     playVideo.setVisibility(View.GONE);
